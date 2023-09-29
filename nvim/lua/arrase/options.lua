@@ -37,7 +37,7 @@ vim.opt.sidescrolloff = 4
 
 vim.cmd("set clipboard+=unnamedplus") ]]
 
--- vim.cmd("set confirm")
+vim.cmd("set confirm")
 local options = {
 	backup = false,
 	clipboard = "unnamedplus",
