@@ -89,11 +89,6 @@ return {
 
 		local mappings = {
 			["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-			["B"] = { "<cmd>Telescope buffers<cr>", "Buffers" },
-			--[[ ["b"] = {
-				"<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-				"Buffers",
-			}, ]]
 			b = {
 				name = "Buffers",
 				j = { "<cmd>BufferLinePick<cr>", "Jump" },
@@ -139,19 +134,22 @@ return {
 			},
 			f = {
 				name = "Find",
+				a = { "<cmd>Telescope grep_string<cr>", "Find String" },
+				b = { "<cmd>Telescope buffers<cr>", "Buffers" },
 				c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
-				f = { "<cmd>Telescope find_files<cr>", "Find files" },
-				t = { "<cmd>Telescope live_grep<cr>", "Find Text" },
-				s = { "<cmd>Telescope grep_string<cr>", "Find String" },
-				h = { "<cmd>Telescope help_tags<cr>", "Help" },
-				H = { "<cmd>Telescope highlights<cr>", "Highlights" },
-				i = { "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>", "Media" },
-				l = { "<cmd>Telescope resume<cr>", "Last Search" },
-				M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
-				r = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
-				R = { "<cmd>Telescope registers<cr>", "Registers" },
-				k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
 				C = { "<cmd>Telescope commands<cr>", "Commands" },
+				f = { "<cmd>Telescope find_files<cr>", "Find files" },
+				h = { "<cmd>Telescope help_tags<cr>", "Help" },
+				i = { "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>", "Media" },
+				k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+				l = { "<cmd>Telescope resume<cr>", "Last Search" },
+				t = { "<cmd>Telescope live_grep<cr>", "Find Text" },
+				p = { "<cmd>Telescope lsp_references<cr>", "References" },
+				r = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
+				s = {
+					"<cmd>lua require('telescope').extensions.file_browser.file_browser({path='%:p:h', respect_gitignore = false, hidden = true,grouped = true,previewer = false, layout_config = { height = 40 },})<cr>",
+					"File Browser",
+				},
 			},
 			--[[ p = {
 				name = "Packer",

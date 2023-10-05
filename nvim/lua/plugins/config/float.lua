@@ -2,9 +2,9 @@ return {
 	"voldikss/vim-floaterm",
 	config = function()
 		vim.cmd([[ 
-    let g:floaterm_keymap_new = '<Leader>ft' 
+    """"let g:floaterm_keymap_new = '<Leader>ft' 
     nmap <buffer> <Leader>t :<esc>:FloatermNew <CR>
-    nmap <buffer> <Leader>ft :<esc>:FloatermToggle <CR>
+    """nmap <buffer> <Leader>ft :<esc>:FloatermToggle <CR>
     let g:floaterm_height = 0.8
     let g:floaterm_width = 0.8
     let g:floaterm_position = 'center' 

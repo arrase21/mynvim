@@ -6,54 +6,139 @@ return {
 		"nvim-telescope/telescope-ui-select.nvim",
 	},
 	config = function()
-		local function telescope_buffer_dir()
-			return vim.fn.expand("%:p:h")
+		local status_ok, telescope = pcall(require, "telescope")
+		if not status_ok then
+			return
 		end
 
 		local actions = require("telescope.actions")
 		local builtin = require("telescope.builtin")
-		local telescope = require("telescope")
-		local fb_actions = require("telescope").extensions.file_browser.actions
-
 		telescope.setup({
 			defaults = {
 				prompt_prefix = "🔎 ",
+				selection_caret = " ",
+				path_display = { "smart" },
+				file_ignore_patterns = {
+					".git/",
+					"target/",
+					"docs/",
+					"vendor/*",
+					"%.lock",
+					"__pycache__/*",
+					"%.sqlite3",
+					"%.ipynb",
+					"node_modules/*",
+					-- "%.jpg",
+					-- "%.jpeg",
+					-- "%.png",
+					"%.svg",
+					"%.otf",
+					"%.ttf",
+					"%.webp",
+					".dart_tool/",
+					".github/",
+					".gradle/",
+					".idea/",
+					".settings/",
+					".vscode/",
+					"__pycache__/",
+					"build/",
+					"env/",
+					"gradle/",
+					"node_modules/",
+					"%.pdb",
+					"%.dll",
+					"%.class",
+					"%.exe",
+					"%.cache",
+					"%.ico",
+					"%.pdf",
+					"%.dylib",
+					"%.jar",
+					"%.docx",
+					"%.met",
+					"smalljre_*/*",
+					".vale/",
+					"%.burp",
+					"%.mp4",
+					"%.mkv",
+					"%.rar",
+					"%.zip",
+					"%.7z",
+					"%.tar",
+					"%.bz2",
+					"%.epub",
+					"%.flac",
+					"%.tar.gz",
+				},
+
 				mappings = {
 					n = {
 						["q"] = actions.close,
-					},
-				},
-				pickers = {
-					lsp_code_actions = {
-						theme = "cursor",
-					},
-					code_action = {
-						theme = "cursor",
-					},
-					lsp_workspace_diagnostics = {
-						theme = "dropdown",
+						["dd"] = require("telescope.actions").delete_buffer,
+						["?"] = actions.which_key,
 					},
 				},
 			},
+			pickers = {
+				live_grep = {
+					theme = "dropdown",
+					previewer = true,
+				},
+				grep_string = {
+					theme = "dropdown",
+				},
+				find_files = {
+					theme = "dropdown",
+					previewer = true,
+				},
+				oldfiles = {
+					theme = "dropdown",
+					previewer = true,
+				},
+
+				buffers = {
+					theme = "dropdown",
+					previewer = false,
+					initial_mode = "normal",
+				},
+				planets = {
+					show_pluto = true,
+					show_moon = true,
+				},
+				colorscheme = {
+					-- enable_preview = true,
+				},
+				lsp_references = {
+					theme = "dropdown",
+					initial_mode = "normal",
+				},
+				lsp_definitions = {
+					theme = "dropdown",
+					initial_mode = "normal",
+				},
+				lsp_declarations = {
+					theme = "dropdown",
+					initial_mode = "normal",
+				},
+				lsp_implementations = {
+					theme = "dropdown",
+					initial_mode = "normal",
+				},
+			},
 			extensions = {
+				media_files = {
+					filetypes = { "png", "webp", "jpg", "jpeg" },
+					find_cmd = "rg", -- find command (defaults to `fd`)
+				},
 				file_browser = {
 					theme = "dropdown",
-					-- disables netrw and use telescope-file-browser in its place
 					hijack_netrw = true,
 					prompt_prefix = "🔎 ",
 					mappings = {
-						-- your custom insert mode mappings
 						["i"] = {
 							["<C-w>"] = function()
 								vim.cmd("normal vbd")
-							end,
-						},
-						["n"] = {
-							-- your custom normal mode mappings
-							["N"] = fb_actions.create,
-							["h"] = fb_actions.goto_parent_dir,
-							["/"] = function()
-								vim.cmd("startinsert")
 							end,
 						},
 					},
@@ -65,17 +150,12 @@ return {
 				},
 			},
 		})
-
 		telescope.load_extension("file_browser")
-
 		vim.keymap.set("n", ";f", function()
 			builtin.find_files({
 				no_ignore = false,
 				hidden = true,
 			})
-		end)
-		vim.keymap.set("n", ";r", function()
-			builtin.live_grep()
 		end)
 		vim.keymap.set("n", "\\\\", function()
 			builtin.buffers()
@@ -101,16 +181,10 @@ return {
 				layout_config = { height = 40 },
 			})
 		end)
-
 		require("telescope").load_extension("ui-select")
 		vim.api.nvim_set_keymap("n", "<Leader><CR>", "<cmd>lua vim.lsp.buf.code_action()<CR>", { noremap = true })
 		vim.api.nvim_set_keymap("n", "<Leader>gr", "<cmd>Telescope lsp_references<CR>", { noremap = true })
 		vim.api.nvim_set_keymap("n", "<Leader>gs", "<cmd>Telescope git_status<CR>", { noremap = true })
 		vim.api.nvim_set_keymap("n", "<Leader>sd", "<cmd>Telescope diagnostics<CR>", { noremap = true })
-
-		vim.cmd([[
- highlight TelescopeSelection guifg=#FF38A2 gui=bold
- highlight TelescopeMatching guifg=#d9bcef
-]])
 	end,
 }
